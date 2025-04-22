@@ -7,9 +7,9 @@
     <style>
         :root {
             --bg-color: #1e1e1e;
-            --text-color: #e0e0e0;
+            --text-color: #e8e8e8;
             --code-bg: #2d2d2d;
-            --code-border: #3e3e3e;
+            --code-border: #3a663e;
             --title-color: #4fc3f7;
         }
 
@@ -38,17 +38,18 @@
             color: var(--title-color);
             font-size: 1.3rem;
             font-weight: 600;
-            margin-bottom:  ;
+            margin-bottom: 15px;
         }
 
         .code-header {
             display: flex;
             align-items: center;
+            justify-content: space-between;
             background: #252526;
             border-top-left-radius: 8px;
             border-top-right-radius: 8px;
             padding: 8px 12px;
-            border-bottom: 1px solid var(--code-border);
+             
         }
 
         .code-buttons {
@@ -73,18 +74,47 @@
         }
 
         .code-snippet {
+            position: relative;
             background-color: var(--code-bg);
             border-radius: 0 0 8px 8px;
             padding: 15px;
-            margin-top:0px;
             overflow-x: auto;
             font-family: 'SF Mono', 'Courier New', Courier, monospace;
             font-size: 0.95rem;
             line-height: 1.5;
             color: #d4d4d4;
             tab-size: 4;
-            border: 1px solid var(--code-border);
+            margin:0PX;
             border-top: none;
+            white-space: pre;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #3a3a3a;
+            color: #e8e8e8;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s;
+
+        }
+
+        .code-snippet:hover .copy-btn {
+            opacity: 1;
+        }
+
+        .copy-btn:hover {
+            background: #4a4a4a;
+        }
+
+        .copy-btn:active {
+            background: #2a2a2a;
         }
 
         @media (max-width: 768px) {
@@ -111,16 +141,16 @@
         // Array problems data
         const problems = [
             {
-                title: "1.Reverse an Array",
-                filename: "Revers-an-Array.java",
+                title: "1. Reverse an Array",
+                filename: "Reverse-an-Array.java",
                 code: `class Solution {
     public void reverseString(char[] s) {
-        int l=0;
-        int r=s.length-1;
-        while(l<r){
-            char temp=s[l];
-            s[l]=s[r];
-            s[r]=temp;
+        int l = 0;
+        int r = s.length - 1;
+        while (l < r) {
+            char temp = s[l];
+            s[l] = s[r];
+            s[r] = temp;
             l++;
             r--;
         }
@@ -128,20 +158,18 @@
 }`
             },
             {
-                title: "2. Best Time to Buy and Sell Stock",
-                filename: "max-profit.js",
-                code: `function maxProfit(prices) {
-    let minPrice = Infinity;
-    let maxProfit = 0;
-    
-    for (let price of prices) {
-        if (price < minPrice) {
-            minPrice = price;
-        } else if (price - minPrice > maxProfit) {
-            maxProfit = price - minPrice;
+                title: "2. Two Sum",
+                filename: "two-sum.js",
+                code: `function twoSum(nums, target) {
+    const map = {};
+    for (let i = 0; i < nums.length; i++) {
+        const complement = target - nums[i];
+        if (complement in map) {
+            return [map[complement], i];
         }
+        map[nums[i]] = i;
     }
-    return maxProfit;
+    return [];
 }`
             },
             
@@ -164,10 +192,24 @@
                     </div>
                     <div class="code-filename">${problem.filename}</div>
                 </div>
-                <pre class="code-snippet">${problem.code}</pre>
+                <pre class="code-snippet"><button class="copy-btn">Copy</button>${problem.code}</pre>
             `;
             
             problemsList.appendChild(problemElement);
+            
+            // Add copy functionality
+            const copyBtn = problemElement.querySelector('.copy-btn');
+            const codeSnippet = problemElement.querySelector('.code-snippet');
+            
+            copyBtn.addEventListener('click', () => {
+                const codeText = codeSnippet.textContent.replace('Copy', '').trim();
+                navigator.clipboard.writeText(codeText).then(() => {
+                    copyBtn.textContent = 'Copied!';
+                    setTimeout(() => {
+                        copyBtn.textContent = 'Copy';
+                    }, 2000);
+                });
+            });
         });
     </script>
 </body>
