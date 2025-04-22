@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA Array Problems Revision</title>
+    <style>
+        :root {
+            --bg-color: #1e1e1e;
+            --text-color: #e0e0e0;
+            --code-bg: #2d2d2d;
+            --code-border: #3e3e3e;
+            --title-color: #4fc3f7;
+        }
+
+        body {
+            font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: var(--title-color);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .problem-container {
+            margin-bottom: 40px;
+        }
+
+        .problem-title {
+            color: var(--title-color);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom:  ;
+        }
+
+        .code-header {
+            display: flex;
+            align-items: center;
+            background: #252526;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--code-border);
+        }
+
+        .code-buttons {
+            display: flex;
+            gap: 6px;
+        }
+
+        .code-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .btn-red { background-color: #ff5f56; }
+        .btn-yellow { background-color: #ffbd2e; }
+        .btn-green { background-color: #27c93f; }
+
+        .code-filename {
+            margin-left: 10px;
+            color: #858585;
+            font-size: 0.8rem;
+        }
+
+        .code-snippet {
+            background-color: var(--code-bg);
+            border-radius: 0 0 8px 8px;
+            padding: 15px;
+            margin-top:0px;
+            overflow-x: auto;
+            font-family: 'SF Mono', 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #d4d4d4;
+            tab-size: 4;
+            border: 1px solid var(--code-border);
+            border-top: none;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+
+            .problem-title {
+                font-size: 1.1rem;
+            }
+
+            .code-snippet {
+                font-size: 0.85rem;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Array Problems Revision</h1>
+    <div id="problems-list"></div>
+
+    <script>
+        // Array problems data
+        const problems = [
+            {
+                title: "1. Two Sum",
+                filename: "two-sum.js",
+                code: `function twoSum(nums, target) {
+    const map = {};
+    for (let i = 0; i < nums.length; i++) {
+        const complement = target - nums[i];
+        if (complement in map) {
+            return [map[complement], i];
+        }
+        map[nums[i]] = i;
+    }
+    return [];
+}`
+            },
+            {
+                title: "2. Best Time to Buy and Sell Stock",
+                filename: "max-profit.js",
+                code: `function maxProfit(prices) {
+    let minPrice = Infinity;
+    let maxProfit = 0;
+    
+    for (let price of prices) {
+        if (price < minPrice) {
+            minPrice = price;
+        } else if (price - minPrice > maxProfit) {
+            maxProfit = price - minPrice;
+        }
+    }
+    return maxProfit;
+}`
+            },
+            {
+                title: "3. Contains Duplicate",
+                filename: "contains-duplicate.js",
+                code: `function containsDuplicate(nums) {
+    const seen = new Set();
+    for (const num of nums) {
+        if (seen.has(num)) {
+            return true;
+        }
+        seen.add(num);
+    }
+    return false;
+}`
+            },
+            {
+                title: "4. Product of Array Except Self",
+                filename: "product-except-self.js",
+                code: `function productExceptSelf(nums) {
+    const n = nums.length;
+    const answer = new Array(n);
+    
+    // Left products
+    answer[0] = 1;
+    for (let i = 1; i < n; i++) {
+        answer[i] = answer[i-1] * nums[i-1];
+    }
+    
+    // Right products
+    let right = 1;
+    for (let i = n - 1; i >= 0; i--) {
+        answer[i] *= right;
+        right *= nums[i];
+    }
+    
+    return answer;
+}`
+            },
+            {
+                title: "5. Maximum Subarray",
+                filename: "max-subarray.js",
+                code: `function maxSubArray(nums) {
+    let maxCurrent = nums[0];
+    let maxGlobal = nums[0];
+    
+    for (let i = 1; i < nums.length; i++) {
+        maxCurrent = Math.max(nums[i], maxCurrent + nums[i]);
+        if (maxCurrent > maxGlobal) {
+            maxGlobal = maxCurrent;
+        }
+    }
+    return maxGlobal;
+}`
+            }
+        ];
+
+        // Render problems
+        const problemsList = document.getElementById('problems-list');
+        
+        problems.forEach((problem) => {
+            const problemElement = document.createElement('div');
+            problemElement.className = 'problem-container';
+            
+            problemElement.innerHTML = `
+                <div class="problem-title">${problem.title}</div>
+                <div class="code-header">
+                    <div class="code-buttons">
+                        <div class="code-btn btn-red"></div>
+                        <div class="code-btn btn-yellow"></div>
+                        <div class="code-btn btn-green"></div>
+                    </div>
+                    <div class="code-filename">${problem.filename}</div>
+                </div>
+                <pre class="code-snippet">${problem.code}</pre>
+            `;
+            
+            problemsList.appendChild(problemElement);
+        });
+    </script>
+</body>
+</html>
