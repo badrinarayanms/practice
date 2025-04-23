@@ -141,7 +141,7 @@
         // Array problems data
         const problems = [
             {
-                title: "1. Reverse an Array",
+                title: "0. Reverse an Array",
                 filename: "Reverse-an-Array.java",
                 code: `class Solution {
     public void reverseString(char[] s) {
@@ -156,22 +156,370 @@
         }
     }
 }`
+            },{
+                "title": "1. Find Duplicates Using HashMap",
+                "filename": "FindDuplicatesHashMap.java",
+                "code": `class Solution {
+            public List<Integer> findDuplicates(int[] nums) {
+                Map<Integer,Integer> hash=new HashMap<>();
+                for(int i :nums){
+                    hash.put(i,hash.getOrDefault(i,0)+1);
+                }
+                List<Integer> list=new ArrayList<>();
+                for(Map.Entry<Integer,Integer> e:hash.entrySet()){
+                    if(e.getValue()>1){
+                        list.add(e.getKey());
+                    }
+                }
+                return list;
+            }
+        }`
             },
             {
-                title: "2. Two Sum",
-                filename: "two-sum.js",
-                code: `function twoSum(nums, target) {
-    const map = {};
-    for (let i = 0; i < nums.length; i++) {
-        const complement = target - nums[i];
-        if (complement in map) {
-            return [map[complement], i];
-        }
-        map[nums[i]] = i;
-    }
-    return [];
-}`
+                "title": "2. Find Duplicates Using In-Place Marking",
+                "filename": "FindDuplicatesInPlace.java",
+                "code": `class Solution {
+            static {
+                for (int i = 0 ; i < 200 ; i++) findDuplicates(new int[]{1,1,2});
+            }
+        
+            public static List<Integer> findDuplicates(int[] nums) {
+                List<Integer> result = new ArrayList<>();
+        
+                for (int i = 0; i < nums.length; i++) {
+                    int index = Math.abs(nums[i]) - 1;
+        
+                    if (nums[index] < 0) {
+                        result.add(index + 1);
+                    } else {
+                        nums[index] = -nums[index];
+                    }
+                }
+        
+                return result;
+            }
+        }`
             },
+            {
+                "title": "3. Find Duplicates Using Set",
+                "filename": "FindDuplicatesSet.java",
+                "code": `class Solution {
+            public List<Integer> findDuplicates(int[] nums) {
+                Set<Integer> seen = new HashSet<>();
+                List<Integer> duplicates = new ArrayList<>();
+        
+                for (int num : nums) {
+                    if (!seen.add(num)) {
+                        duplicates.add(num);
+                    }
+                }
+        
+                return duplicates;
+            }
+        }`
+            },
+            {
+                "title": "4. Calculate Painting Cost Based on Item Count",
+                "filename": "PaintingCostCalculator.java",
+                "code": `package arrays;
+        import java.util.*;
+        public class paintingcost {
+            public static void main(String args[]){
+                Scanner sc= new Scanner(System.in);
+                int m=sc.nextInt();
+                int n=sc.nextInt();
+                sc.nextLine();
+                String input = sc.nextLine();
+                List<Float> sf=new ArrayList<>();
+                String[] values = input.split(","); 
+                int count=0;
+                Float cost=0.0f;
+                for(String s:values){
+                    if(count<m){
+                        cost+=Float.parseFloat(s)* 20.0f;
+                        count++;
+                    }else{
+                        cost+=Float.parseFloat(s)* 15.0f;
+                    }
+                }
+                System.out.printf("%.6f", cost);
+            }
+        }`
+            },
+            {
+                "title": "5. Sort Array of 0s, 1s, and 2s Using Dutch National Flag Algorithm",
+                "filename": "Sort012Efficient.java",
+                "code": `class Solution {
+            public void sort012(int[] arr) {
+                int low=0, mid=0, high=arr.length -1;
+                while(mid<=high){
+                    if(arr[mid]==0){
+                        int temp=arr[mid];
+                        arr[mid]=arr[low];
+                        arr[low]=temp;
+                        mid++;
+                        low++;
+                    }else if(arr[mid]==1){
+                        mid++;
+                    }else{
+                        int temp=arr[mid];
+                        arr[mid]=arr[high];
+                        arr[high]=temp;
+                        high--;
+                    }
+                }
+            }
+        }`
+            },
+            {
+                "title": "6. Sort Array of 0s, 1s, and 2s Using Built-in Sort",
+                "filename": "Sort012Simple.java",
+                "code": `class Solution {
+            public void sort012(int[] arr) {
+                Arrays.sort(arr);
+            }
+        }`
+            },
+            {
+                "title": "7. GCD-Based Array Simplification",
+                "filename": "GCDArraySimplification.java",
+                "code": `public class gcdarray {
+        
+            public static int gcd(int a,int b){
+                if(b==0){
+                    return a;
+                }
+                return gcd(b,a%b);
+            }
+        
+            public static void main(String[] args) {
+                Scanner sc=new Scanner(System.in);
+                int arr[]={6,12,18};
+                int max=arr[0];
+                for(int i=0;i<arr.length;i++){
+                    if(arr[i]>max){
+                        max=arr[i];
+                    }
+                }
+        
+                int GCD=arr[0];
+                for(int i:arr){
+                    GCD=gcd(GCD,i);
+                }
+        
+                System.out.println(max/GCD);
+            }
+        }`
+            },
+            {
+                "title": "8. Maximum Range Sum Using Difference Array",
+                "filename": "DifferenceArrayRangeUpdate.java",
+                "code": `package arrays;
+        
+        import java.util.Scanner;
+        
+        public class mops {
+            public static void main(String[] args) {
+                Scanner sc = new java.util.Scanner(System.in);
+                int n = sc.nextInt();
+                int m = sc.nextInt();
+                int diff [] = new int [n];
+                for(int i=0;i<m;i++){
+                    int a=sc.nextInt()-1;
+                    int b=sc.nextInt();
+                    int v=sc.nextInt();
+                    for(int j=a;j<b;j++){
+                        diff[j]+=v;
+                    }
+                }
+                int max=diff[0];
+                for(int i:diff){
+                    if(max<i){
+                        max=i;
+                    }
+                }
+                System.out.println(max);
+            }
+        }`
+            },
+            {
+                "title": "9. Separate Negative and Positive Integers in List",
+                "filename": "SeparatePosNeg.java",
+                "code": `public static List<Integer> posNegSeparation(List<Integer> arr) {
+            List<Integer> negatives = new ArrayList<>();
+            List<Integer> positives = new ArrayList<>();
+            
+            for (int num : arr) {
+                if (num < 0) {
+                    negatives.add(num);
+                } else {
+                    positives.add(num);
+                }
+            }
+            
+            negatives.addAll(positives);
+            return negatives;
+        }`
+            },
+            {
+                "title": "10. Count Maximum Triplets in Array",
+                "filename": "CountMaxTriplets.py",
+                "code": `from collections import Counter
+        
+        def countMaxTriplets(arr, N, M):
+            freqMap = Counter(arr)
+            tripletCount = sum(v // 3 for v in freqMap.values())
+            for num in range(1, M-1):
+                tripletCount += min(freqMap.get(num, 0), freqMap.get(num+1, 0), freqMap.get(num+2, 0))
+            return tripletCount
+        
+        N, M = map(int, input().split())
+        arr = list(map(int, input().split()))
+        print(countMaxTriplets(arr, N, M))`
+            },
+            {
+                "title": "11. Max Consecutive Ones with Limited Zero Flips",
+                "filename": "MaxConsecutiveOnes.java",
+                "code": `public static int maxConsecutiveOnesBruteForce(int[] B, int k) {
+            int n = B.length;
+            int maxLen = 0;
+        
+            for (int i = 0; i < n; i++) {
+                int zeros = 0;
+                for (int j = i; j < n; j++) {
+                    if (B[j] == 0) zeros++;
+        
+                    if (zeros > k) break;
+        
+                    maxLen = Math.max(maxLen, j - i + 1);
+                }
+            }
+        
+            return maxLen;
+        }`
+            },
+            {
+                "title": "12. Count Subarrays With LCM Equal to K",
+                "filename": "CountSubarraysLCM.java",
+                "code": `public static int lcm(int a, int b) {
+            return a * b / gcd(a, b);
+        }
+        
+        public static int gcd(int a, int b) {
+            while (b != 0) {
+                int temp = b;
+                b = a % b;
+                a = temp;
+            }
+            return a;
+        }
+        
+        public static int countSubarraysWithLCM(int[] A, int k) {
+            int count = 0;
+            int n = A.length;
+        
+            for (int i = 0; i < n; i++) {
+                int currentLcm = 1;
+                for (int j = i; j < n; j++) {
+                    currentLcm = lcm(currentLcm, A[j]);
+                    if (currentLcm > k) break;
+                    if (currentLcm == k) count++;
+                }
+            }
+            return count;
+        }`
+            },
+            {
+                "title": "13. Find Balancing Index in Array",
+                "filename": "BalancingIndexFinder.java",
+                "code": `import java.util.*;
+        
+        public class CTJ26 {
+        
+            public static int balancing_array(List<Long> Arr) {
+                long totalSum = 0;
+                for (long num : Arr) {
+                    totalSum += num;
+                }
+                
+                long leftSum = 0;
+                
+                for (int i = 0; i < Arr.size(); i++) {
+                    long rightSum = totalSum - leftSum - Arr.get(i);
+                    if (leftSum == rightSum) {
+                        return i;
+                    }
+                    leftSum += Arr.get(i);
+                }
+        
+                return -1;
+            }
+        }`
+            },
+            {
+                "title": "14. Minimum Merges to Make Array Palindromic",
+                "filename": "PalindromeMakeover.java",
+                "code": `public class CTJ3289 {
+        
+            public static int palindromeMakeover(List<Integer> Arr) {
+                int left = 0;
+                int right = Arr.size() - 1;
+                int merges = 0;
+        
+                while (left < right) {
+                    int leftVal = Arr.get(left);
+                    int rightVal = Arr.get(right);
+        
+                    if (leftVal == rightVal) {
+                        left++;
+                        right--;
+                    } else if (leftVal < rightVal) {
+                        int newVal = leftVal + Arr.get(left + 1);
+                        Arr.set(left + 1, newVal);
+                        left++;
+                        merges++;
+                    } else {
+                        int newVal = rightVal + Arr.get(right - 1);
+                        Arr.set(right - 1, newVal);
+                        right--;
+                        merges++;
+                    }
+                }
+        
+                return merges;
+            }
+        }`
+            },
+            {
+                "title": "15. Calculate Trapped Water Between Bars",
+                "filename": "TrapWaterCalculator.java",
+                "code": `public class TrapWater {
+            
+            public static int trapWater(int N, int[] heights) {
+                if (N <= 2) return 0;
+                
+                int[] leftMax = new int[N];
+                int[] rightMax = new int[N];
+                int waterTrapped = 0;
+                
+                leftMax[0] = heights[0];
+                for (int i = 1; i < N; i++) {
+                    leftMax[i] = Math.max(leftMax[i - 1], heights[i]);
+                }
+                
+                rightMax[N - 1] = heights[N - 1];
+                for (int i = N - 2; i >= 0; i--) {
+                    rightMax[i] = Math.max(rightMax[i + 1], heights[i]);
+                }
+                
+                for (int i = 0; i < N; i++) {
+                    waterTrapped += Math.min(leftMax[i], rightMax[i]) - heights[i];
+                }
+                
+                return waterTrapped;
+            }
+        }`
+            }
             
         ];
 
